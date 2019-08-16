@@ -1,6 +1,10 @@
 {
 	"name": "move-selection-to-new-file",
 	"publisher": "kentos",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kentos/vsce-move-selection-to-new-file.git"
+	},
 	"displayName": "Move selection to new file",
 	"description": "Move selected text/code to a new file",
 	"version": "0.0.1",
