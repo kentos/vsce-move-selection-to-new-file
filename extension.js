@@ -38,6 +38,7 @@ function activate(context) {
 				edit.delete(line.rangeIncludingLineBreak)
 			})
 		})
+
 		moveToNewDoc(codeToMove)
 	}
 

@@ -7,11 +7,12 @@
 	},
 	"displayName": "Move selection to new file",
 	"description": "Move selected text/code to a new file",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
 	"categories": [
+		"Formatters",
 		"Other"
 	],
 	"activationEvents": [
