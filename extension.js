@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 
-function moveToNewDoc(codeToMove) {
-	vscode.workspace.openTextDocument().then(doc => {
+function moveToNewDoc(codeToMove, languageId) {
+	vscode.workspace.openTextDocument({language:languageId}).then(doc => {
 		vscode.window.showTextDocument(doc, 1, false).then(editor => {
 			editor.edit(edit => {
 				edit.insert(new vscode.Position(0, 0), codeToMove)
@@ -39,7 +39,7 @@ function activate(context) {
 			})
 		})
 
-		moveToNewDoc(codeToMove)
+		moveToNewDoc(codeToMove, editor.document.languageId)
 	}
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.moveSelectionToNewFile', moveSelectionToNewFile));
