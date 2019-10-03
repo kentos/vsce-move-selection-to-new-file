@@ -1,12 +1,8 @@
 const vscode = require('vscode');
 
-function moveToNewDoc(codeToMove, languageId) {
-	vscode.workspace.openTextDocument({language:languageId}).then(doc => {
-		vscode.window.showTextDocument(doc, 1, false).then(editor => {
-			editor.edit(edit => {
-				edit.insert(new vscode.Position(0, 0), codeToMove)
-			})
-		})
+function moveToNewDoc({ codeToMove, languageId }) {
+	vscode.workspace.openTextDocument({ language: languageId, content: codeToMove }).then(doc => {
+		vscode.window.showTextDocument(doc, 1, false)
 	})
 }
 
@@ -15,9 +11,8 @@ function activate(context) {
 
 	function moveSelectionToNewFile() {
 		const editor = vscode.window.activeTextEditor;
-		const selection = editor.selection
+		const { selection } = editor
 		const codeToMove = editor.document.getText(editor.selection)
-
 		const removeLines = [selection.start.line, selection.end.line]
 
 		if (selection.start.line > 0) {
@@ -39,7 +34,10 @@ function activate(context) {
 			})
 		})
 
-		moveToNewDoc(codeToMove, editor.document.languageId)
+		moveToNewDoc({
+			codeToMove,
+			languageId: editor.document.languageId,
+		})
 	}
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.moveSelectionToNewFile', moveSelectionToNewFile));
