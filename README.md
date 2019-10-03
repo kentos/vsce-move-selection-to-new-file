@@ -19,6 +19,13 @@ We try to keep release notes.
 
 Initial release of Move selection to new file.
 
+### 1.0.1
+**New**:<br>
+[New document inherits same languageId](https://github.com/kentos/vsce-move-selection-to-new-file/pull/2) - big up to [esviza](https://github.com/esviza) 🥳
+
+**Chores**:<br>
+Making `moveToNewDoc` more extentable and making input and object instead of positional params.
+
 ---
 
 

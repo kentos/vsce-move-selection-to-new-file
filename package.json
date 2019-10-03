@@ -10,7 +10,7 @@
 	},
 	"displayName": "Move selection to new file",
 	"description": "Move selected text/code to a new file",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
