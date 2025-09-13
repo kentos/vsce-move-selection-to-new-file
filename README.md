@@ -1,3 +1,11 @@
+# Building vsix file
+
+1. Clone reposotory
+2. npm install
+3. npm install -g @vscode/vsce
+4. npm install -g corepack
+5. vsce package
+
 # Move selection to new file
 
 The refactorers best friend!<br>
