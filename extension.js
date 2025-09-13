@@ -30,6 +30,46 @@ async function moveToChosenFile({ codeToMove, languageId }) {
     await doc.save();
 }
 
+async function moveToWorkspaceFile({ codeToMove, languageId }) {
+    // Get list of all files in workspace
+    const files = await vscode.workspace.findFiles('**/*');
+
+    if (files.length === 0) {
+        vscode.window.showWarningMessage('No files found in workspace');
+        return;
+    }
+
+    // Map to quick pick items
+    const items = files.map(uri => ({
+        label: path.basename(uri.fsPath),
+        description: vscode.workspace.asRelativePath(uri),
+        uri
+    }));
+
+    // Show quick pick in Command Palette
+    const picked = await vscode.window.showQuickPick(items, {
+        placeHolder: 'Select a file to move selection into',
+        matchOnDescription: true
+    });
+
+    if (!picked) return; // cancelled
+
+    const targetUri = picked.uri;
+
+    // Open file and insert text
+    const doc = await vscode.workspace.openTextDocument(targetUri);
+    const editor = await vscode.window.showTextDocument(doc, { preview: false });
+
+    // Insert at end of file (or at cursor if you prefer)
+    const position = new vscode.Position(doc.lineCount, 0);
+
+    await editor.edit(editBuilder => {
+        editBuilder.insert(position, codeToMove + '\n');
+    });
+
+    await doc.save();
+}
+
 function activate(context) {
     console.log('Extension "move-selection-to-new-file" is now active!');
 
@@ -52,7 +92,7 @@ function activate(context) {
 
         // Ask user if they want new file or existing file
         const choice = await vscode.window.showQuickPick(
-            ['New File', 'Choose Existing File'],
+            ['Choose File From Workspace', 'Choose Existing File', 'New File'],
             { placeHolder: 'Move selection to...' }
         );
 
@@ -64,6 +104,11 @@ function activate(context) {
             vscode.window.showTextDocument(doc, { preview: false });
         } else if (choice === 'Choose Existing File') {
             await moveToChosenFile({
+                codeToMove,
+                languageId: editor.document.languageId
+            });
+        } else if (choice === 'Choose File From Workspace') {
+            await moveToWorkspaceFile({
                 codeToMove,
                 languageId: editor.document.languageId
             });
